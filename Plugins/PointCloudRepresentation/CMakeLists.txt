@@ -4,6 +4,7 @@ if (NOT ParaView_BINARY_DIR)
   find_package(ParaView REQUIRED)
   include(${PARAVIEW_USE_FILE})
 endif()
+find_package(OpenGL REQUIRED)
 
 # Set a consistent MACOSX_RPATH default across all CMake versions.
 # When CMake 2.8.12 is required, change this default to 1.
@@ -36,3 +37,4 @@ add_paraview_plugin(PointCloudPlugin "1.0"
     ${ENCODED_STRING_FILES}
     vtkPointCloudMapper.cxx
 )
+target_link_libraries(PointCloudPlugin LINK_PRIVATE ${OPENGL_LIBRARIES} )

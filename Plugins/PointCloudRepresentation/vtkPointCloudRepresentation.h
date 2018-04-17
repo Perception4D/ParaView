@@ -175,8 +175,8 @@ protected:
   double Bounds[6];
 
 private:
-  vtkPointCloudRepresentation(const vtkPointCloudRepresentation&) = delete;
-  void operator=(const vtkPointCloudRepresentation&) = delete;
+  vtkPointCloudRepresentation(const vtkPointCloudRepresentation&); // Not implemented
+  void operator=(const vtkPointCloudRepresentation&); // Not implemented
 };
 
 #endif

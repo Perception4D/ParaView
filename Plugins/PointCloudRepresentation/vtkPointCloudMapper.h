@@ -48,7 +48,7 @@ public:
 
 protected:
   vtkPointCloudMapper();
-  ~vtkPointCloudMapper() override = default;
+  ~vtkPointCloudMapper();
 
   int FillInputPortInformation(int port, vtkInformation* info) override;
 
@@ -60,17 +60,17 @@ protected:
 
   vtkSmartPointer<vtkShaderProgram> Program;
 
-  vtkNew<vtkOpenGLBufferObject> VBOPos;
-  vtkNew<vtkOpenGLBufferObject> VBOData;
-  vtkNew<vtkOpenGLVertexArrayObject> VAO;
+  vtkSmartPointer<vtkOpenGLBufferObject> VBOPos;
+  vtkSmartPointer<vtkOpenGLBufferObject> VBOData;
+  vtkSmartPointer<vtkOpenGLVertexArrayObject> VAO;
 
   vtkSmartPointer<vtkOpenGLTexture> InternalColorTexture;
 
-  vtkIdType MaxNumberOfPoints = 0;
+  vtkIdType MaxNumberOfPoints;
 
 private:
-  vtkPointCloudMapper(const vtkPointCloudMapper&) = delete;
-  void operator=(const vtkPointCloudMapper&) = delete;
+  vtkPointCloudMapper(const vtkPointCloudMapper&) ; // Not implemented
+  void operator=(const vtkPointCloudMapper&) ; // Not implemented
 };
 
 #endif

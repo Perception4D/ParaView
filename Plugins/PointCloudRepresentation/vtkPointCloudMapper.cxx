@@ -21,6 +21,7 @@
 #include <vtkInformation.h>
 #include <vtkMath.h>
 #include <vtkMatrix4x4.h>
+#include <vtkNew.h>
 #include <vtkObjectFactory.h>
 #include <vtkOpenGLActor.h>
 #include <vtkOpenGLBufferObject.h>
@@ -50,9 +51,23 @@ vtkStandardNewMacro(vtkPointCloudMapper);
 //-----------------------------------------------------------------------------
 vtkPointCloudMapper::vtkPointCloudMapper()
 {
+  MaxNumberOfPoints = 0;
+
+  Program = vtkSmartPointer<vtkShaderProgram>::New() ;
+  VBOPos = vtkSmartPointer<vtkOpenGLBufferObject>::New() ;
+  VBOData = vtkSmartPointer<vtkOpenGLBufferObject>::New() ;
+  VAO = vtkSmartPointer<vtkOpenGLVertexArrayObject>::New() ;
+  InternalColorTexture = vtkSmartPointer<vtkOpenGLTexture>::New() ;
+  Program = vtkSmartPointer<vtkShaderProgram>::New() ;
+
   vtkMath::UninitializeBounds(this->Bounds);
   this->SetInputArrayToProcess(
     0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS, vtkDataSetAttributes::SCALARS);
+}
+
+//-----------------------------------------------------------------------------
+vtkPointCloudMapper::~vtkPointCloudMapper()
+{
 }
 
 //-----------------------------------------------------------------------------
