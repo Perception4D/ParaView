@@ -51,14 +51,11 @@ vtkStandardNewMacro(vtkPointCloudMapper);
 //-----------------------------------------------------------------------------
 vtkPointCloudMapper::vtkPointCloudMapper()
 {
-  MaxNumberOfPoints = 0;
+  this->MaxNumberOfPoints = 0;
 
-  Program = vtkSmartPointer<vtkShaderProgram>::New() ;
-  VBOPos = vtkSmartPointer<vtkOpenGLBufferObject>::New() ;
-  VBOData = vtkSmartPointer<vtkOpenGLBufferObject>::New() ;
-  VAO = vtkSmartPointer<vtkOpenGLVertexArrayObject>::New() ;
-  InternalColorTexture = vtkSmartPointer<vtkOpenGLTexture>::New() ;
-  Program = vtkSmartPointer<vtkShaderProgram>::New() ;
+  this->VBOPos = vtkSmartPointer<vtkOpenGLBufferObject>::New() ;
+  this->VBOData = vtkSmartPointer<vtkOpenGLBufferObject>::New() ;
+  this->VAO = vtkSmartPointer<vtkOpenGLVertexArrayObject>::New() ;
 
   vtkMath::UninitializeBounds(this->Bounds);
   this->SetInputArrayToProcess(
