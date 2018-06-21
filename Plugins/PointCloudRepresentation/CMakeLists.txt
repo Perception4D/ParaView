@@ -6,13 +6,6 @@ if (NOT ParaView_BINARY_DIR)
 endif()
 find_package(OpenGL REQUIRED)
 
-# Set a consistent MACOSX_RPATH default across all CMake versions.
-# When CMake 2.8.12 is required, change this default to 1.
-# When CMake 3.0.0 is required, remove this block (see CMP0042).
-if(NOT DEFINED CMAKE_MACOSX_RPATH)
-  set(CMAKE_MACOSX_RPATH 0)
-endif()
-
 include(ParaViewPlugins)
 
 include_directories(
@@ -38,3 +31,7 @@ add_paraview_plugin(PointCloudPlugin "1.0"
     vtkPointCloudMapper.cxx
 )
 target_link_libraries(PointCloudPlugin LINK_PRIVATE ${OPENGL_LIBRARIES} )
+if (VTK_RENDERING_BACKEND STREQUAL "OpenGL")
+  message(WARNING "You chose both PointCloudPlugin and OpenGL1 rendering backend. PointCloudPlugin requires OpenGL2 and will not be built.")
+  set(PARAVIEW_BUILD_PLUGIN_PointCloudRepresentation 0)
+endif()
