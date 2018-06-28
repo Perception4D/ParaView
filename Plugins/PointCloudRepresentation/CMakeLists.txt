@@ -11,6 +11,7 @@ include(ParaViewPlugins)
 include_directories(
   ${VTK_INCLUDE_DIRS}
 )
+set (CMAKE_CXX_STANDARD 11)
 
 # create a paraview plugin containing server manager xml and the server
 # manager classes to build
