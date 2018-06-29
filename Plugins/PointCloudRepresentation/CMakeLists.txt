@@ -34,5 +34,5 @@ add_paraview_plugin(PointCloudPlugin "1.0"
 target_link_libraries(PointCloudPlugin LINK_PRIVATE ${OPENGL_LIBRARIES} )
 if (VTK_RENDERING_BACKEND STREQUAL "OpenGL")
   message(WARNING "You chose both PointCloudPlugin and OpenGL1 rendering backend. PointCloudPlugin requires OpenGL2 and will not be built.")
-  set(PARAVIEW_BUILD_PLUGIN_PointCloudRepresentation 0)
+  set(PARAVIEW_BUILD_PLUGIN_PointCloudRepresentation OFF)
 endif()
