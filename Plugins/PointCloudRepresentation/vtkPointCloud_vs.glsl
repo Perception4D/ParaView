@@ -19,7 +19,7 @@ void main()
   if (hasVertexData == 1)
   {
     //color = texture2D(colorTex, vec2(vertexData - dataRange.x, 0.0));
-    color = texture2D(colorTex, vec2((vertexData - dataRange.x)/(dataRange.y - dataRange.x), 0.0));
+    color = texture(colorTex, vec2((vertexData - dataRange.x)/(dataRange.y - dataRange.x), 0.0));
   }
   colorVSOut = vec4(color.rgb, color.a * opacity);
 }
