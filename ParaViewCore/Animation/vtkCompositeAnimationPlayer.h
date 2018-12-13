@@ -73,19 +73,19 @@ public:
 
 protected:
   vtkCompositeAnimationPlayer();
-  ~vtkCompositeAnimationPlayer() override;
+  ~vtkCompositeAnimationPlayer();
 
   //@{
   /**
    * Delegated to the active animation player.
    */
-  void StartLoop(double starttime, double endtime, double* playbackWindow) VTK_OVERRIDE;
-  void EndLoop() VTK_OVERRIDE;
-  double GetNextTime(double currentime) VTK_OVERRIDE;
+  void StartLoop(double starttime, double endtime, double curtime, double* playbackWindow) override;
+  void EndLoop() override;
+  double GetNextTime(double currentime) override;
   //@}
 
-  double GoToNext(double start, double end, double currenttime) VTK_OVERRIDE;
-  double GoToPrevious(double start, double end, double currenttime) VTK_OVERRIDE;
+  virtual double GoToNext(double start, double end, double currenttime) VTK_OVERRIDE;
+  virtual double GoToPrevious(double start, double end, double currenttime) VTK_OVERRIDE;
 
   vtkAnimationPlayer* GetActivePlayer();
 

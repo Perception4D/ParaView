@@ -77,23 +77,23 @@ public:
 
 protected:
   vtkTimestepsAnimationPlayer();
-  ~vtkTimestepsAnimationPlayer() override;
+  ~vtkTimestepsAnimationPlayer();
   //@}
 
-  void StartLoop(double, double, double*) VTK_OVERRIDE;
-  void EndLoop() VTK_OVERRIDE{};
+  void StartLoop(double, double, double, double*) override;
+  void EndLoop() override{};
 
   /**
    * Return the next time given the current time.
    */
-  double GetNextTime(double currentime) VTK_OVERRIDE;
+  virtual double GetNextTime(double currentime) VTK_OVERRIDE;
 
-  double GoToNext(double, double, double currenttime) VTK_OVERRIDE
+  virtual double GoToNext(double, double, double currenttime) VTK_OVERRIDE
   {
     return this->GetNextTimeStep(currenttime);
   }
 
-  double GoToPrevious(double, double, double currenttime) VTK_OVERRIDE
+  virtual double GoToPrevious(double, double, double currenttime) VTK_OVERRIDE
   {
     return this->GetPreviousTimeStep(currenttime);
   }
