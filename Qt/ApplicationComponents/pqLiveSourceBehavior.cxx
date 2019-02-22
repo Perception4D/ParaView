@@ -56,7 +56,7 @@ public:
 
   pqInternals()
   {
-    this->Timer.setInterval(100);
+    this->Timer.setInterval(10);
     this->Timer.setSingleShot(true);
   }
 
