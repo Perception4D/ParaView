@@ -133,10 +133,33 @@ int vtkPointCloudRepresentation::RequestData(vtkInformation* request,
   vtkSmartPointer<vtkDataSet> input = vtkDataSet::GetData(inputVector[0]);
   vtkPointSet* inputPS = vtkPointSet::SafeDownCast(input);
   vtkCompositeDataSet* compositeInput = vtkCompositeDataSet::GetData(inputVector[0], 0);
+  auto* multiBlockInput = vtkMultiBlockDataSet::GetData(inputVector[0]);
   this->ProcessedData = nullptr;
   if (inputPS)
   {
     this->ProcessedData = inputPS;
+  }
+  else if (multiBlockInput)
+  {
+    auto pointSet = vtkSmartPointer<vtkPolyData>::New();
+    auto points = vtkSmartPointer<vtkPoints>::New();
+    points->SetNumberOfPoints(multiBlockInput->GetNumberOfPoints());
+    float* destination = reinterpret_cast<float*>(points->GetData()->GetVoidPointer(0));
+    for (int i = 0; i < multiBlockInput->GetNumberOfBlocks(); ++i)
+    {
+      vtkPolyData* poly = vtkPolyData::SafeDownCast(multiBlockInput->GetBlock(i));
+      if (poly)
+      {
+        int nbPoint = poly->GetNumberOfPoints();
+
+        float*  source = reinterpret_cast<float*>(poly->GetPoints()->GetData()->GetVoidPointer(0));
+        memcpy(destination, source, 3 * nbPoint * sizeof(float));
+        destination += 3 * nbPoint;
+      }
+    }
+
+    pointSet->SetPoints(points.Get());
+    this->ProcessedData = pointSet;
   }
   else if (compositeInput)
   {
