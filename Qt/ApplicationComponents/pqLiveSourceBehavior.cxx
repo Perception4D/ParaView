@@ -167,13 +167,13 @@ void pqLiveSourceBehavior::viewAdded(pqView* view)
 {
   if (auto viewProxy = vtkSMViewProxy::SafeDownCast(view->getProxy()))
   {
-    if (auto iren = viewProxy->GetInteractor())
-    {
-      iren->AddObserver(
-        vtkCommand::StartInteractionEvent, this, &pqLiveSourceBehavior::startInteractionEvent);
-      iren->AddObserver(
-        vtkCommand::EndInteractionEvent, this, &pqLiveSourceBehavior::endInteractionEvent);
-    }
+//    if (auto iren = viewProxy->GetInteractor())
+//    {
+//      iren->AddObserver(
+//        vtkCommand::StartInteractionEvent, this, &pqLiveSourceBehavior::startInteractionEvent);
+//      iren->AddObserver(
+//        vtkCommand::EndInteractionEvent, this, &pqLiveSourceBehavior::endInteractionEvent);
+//    }
   }
 }
 
