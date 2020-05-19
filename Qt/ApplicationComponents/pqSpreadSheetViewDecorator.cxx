@@ -286,7 +286,7 @@ pqSpreadSheetViewDecorator::pqSpreadSheetViewDecorator(pqSpreadSheetView* view)
     SLOT(showing(pqDataRepresentation*)));
 
   this->Internal->ExportSpreadsheet->setDefaultAction(this->Internal->actionExport);
-  new pqExportReaction(this->Internal->ExportSpreadsheet->defaultAction());
+  new pqExportReaction(this->Internal->ExportSpreadsheet->defaultAction(), this->Spreadsheet);
 
   layout->insertWidget(0, header);
 

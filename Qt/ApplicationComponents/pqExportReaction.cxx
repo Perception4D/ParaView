@@ -36,6 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "pqFileDialog.h"
 #include "pqProxyWidget.h"
 #include "pqUndoStack.h"
+#include "pqView.h"
 #include "vtkNew.h"
 #include "vtkSMExporterProxy.h"
 #include "vtkSMTrace.h"
@@ -52,9 +53,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QtDebug>
 
 //-----------------------------------------------------------------------------
-pqExportReaction::pqExportReaction(QAction* parentObject)
+pqExportReaction::pqExportReaction(QAction* parentObject, pqView* view)
   : Superclass(parentObject)
   , ConnectedView(NULL)
+  , View(view)
 {
   // load state enable state depends on whether we are connected to an active
   // server or not and whether
@@ -68,7 +70,8 @@ void pqExportReaction::updateEnableState()
 {
   // this results in firing of exportable(bool) signal which updates the
   // QAction's state.
-  pqView* view = pqActiveObjects::instance().activeView();
+  pqView* view = this->View ? this->View : pqActiveObjects::instance().activeView();
+
   if (this->ConnectedView != view)
   {
     if (this->ConnectedView)
@@ -115,7 +118,8 @@ QString pqExportReaction::exportActiveView()
 {
   SCOPED_UNDO_EXCLUDE();
 
-  pqView* view = pqActiveObjects::instance().activeView();
+  pqView* view = this->View ? this->View : pqActiveObjects::instance().activeView();
+
   if (!view)
   {
     return QString();
