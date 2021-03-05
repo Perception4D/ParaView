@@ -44,6 +44,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vtkSMViewProxy.h"
 #include "vtkSmartPointer.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
@@ -136,6 +138,28 @@ QString pqExportReaction::exportActiveView()
 
   pqFileDialog file_dialog(
     NULL, pqCoreUtilities::mainWidget(), tr("Export View:"), QString(), filters);
+
+  // If there is multiple screen, we need to ensure that the dialog pop up on the active screen
+  if (QApplication::desktop()->numScreens() > 1)
+  {
+    QRect oldGeometry = file_dialog.geometry();
+    QRect availableScreenGeometry = QApplication::desktop()->availableGeometry(QApplication::activeWindow());
+
+    // If the top left corner of the oldGeometry is outside of the active window screen geometry rectangle
+    // We move the file Dialog to the new active window
+    // Screen of the active window is defined by the center of the application window
+    if(!(availableScreenGeometry.x() < oldGeometry.x() &&
+       oldGeometry.x() < availableScreenGeometry.x() + availableScreenGeometry.width() &&
+       availableScreenGeometry.y() < oldGeometry.y() &&
+       oldGeometry.y() < availableScreenGeometry.y() + availableScreenGeometry.height()))
+    {
+      file_dialog.setGeometry(availableScreenGeometry.x() + 100,
+                          availableScreenGeometry.y() + 100,
+                          availableScreenGeometry.width() / 2.,
+                          availableScreenGeometry.height() / 2.);
+    }
+  }
+
   file_dialog.setObjectName("FileExportDialog");
   file_dialog.setFileMode(pqFileDialog::AnyFile);
   if (file_dialog.exec() == QDialog::Accepted && file_dialog.getSelectedFiles().size() > 0)
