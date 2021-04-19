@@ -68,6 +68,7 @@ public:
   * Provides access to the singleton.
   */
   static pqActiveObjects& instance();
+  static pqActiveObjects* instancePtr();
 
   /**
   * Returns the active view.
@@ -210,6 +211,7 @@ private:
   pqProxySelection CachedSelection;
 
   vtkEventQtSlotConnect* VTKConnector;
+  static pqActiveObjects* Instance;
 };
 
 #endif

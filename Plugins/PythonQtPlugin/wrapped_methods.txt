@@ -2,6 +2,8 @@ static QList<pqPipelineSource*> pqLoadDataReaction::loadData()
 
 static pqApplicationCore* pqApplicationCore::instance()
 
+static pqActiveObjects* pqActiveObjects::instancePtr()
+
 static pqPVApplicationCore* pqPVApplicationCore::instance()
 
 pqSettings* pqApplicationCore::settings()

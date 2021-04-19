@@ -42,11 +42,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QDebug>
 
+pqActiveObjects* pqActiveObjects::Instance = 0;
+
+//-----------------------------------------------------------------------------
+pqActiveObjects* pqActiveObjects::instancePtr()
+{
+  if (!pqActiveObjects::Instance)
+    pqActiveObjects::Instance = new pqActiveObjects();
+  return pqActiveObjects::Instance;
+}
+
 //-----------------------------------------------------------------------------
 pqActiveObjects& pqActiveObjects::instance()
 {
-  static pqActiveObjects activeObject;
-  return activeObject;
+  if (!pqActiveObjects::Instance)
+    pqActiveObjects::Instance = new pqActiveObjects();
+  return *pqActiveObjects::Instance;
 }
 
 //-----------------------------------------------------------------------------
