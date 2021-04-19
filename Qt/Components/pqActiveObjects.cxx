@@ -61,11 +61,22 @@ pqOutputPort* getPortFromPipelineProxy(pqProxy* proxy)
 }
 }
 
+pqActiveObjects* pqActiveObjects::Instance = 0;
+
+//-----------------------------------------------------------------------------
+pqActiveObjects* pqActiveObjects::instancePtr()
+{
+  if (!pqActiveObjects::Instance)
+    pqActiveObjects::Instance = new pqActiveObjects();
+  return pqActiveObjects::Instance;
+}
+
 //-----------------------------------------------------------------------------
 pqActiveObjects& pqActiveObjects::instance()
 {
-  static pqActiveObjects activeObject;
-  return activeObject;
+  if (!pqActiveObjects::Instance)
+    pqActiveObjects::Instance = new pqActiveObjects();
+  return *pqActiveObjects::Instance;
 }
 
 //-----------------------------------------------------------------------------
