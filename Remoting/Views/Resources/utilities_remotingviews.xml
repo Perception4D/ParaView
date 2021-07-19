@@ -1618,7 +1618,7 @@
         </Documentation>
       </IntVectorProperty>
       <IntVectorProperty command="SetAutomaticLabelFormat"
-                         default_values="1"
+                         default_values="0"
                          name="AutomaticLabelFormat"
                          number_of_elements="1">
         <BooleanDomain name="bool" />
@@ -1629,7 +1629,7 @@
       </IntVectorProperty>
       <StringVectorProperty animateable="0"
                             command="SetLabelFormat"
-                            default_values="%-#6.3g"
+                            default_values="%g"
                             name="LabelFormat"
                             number_of_elements="1">
         <Hints>
@@ -1693,7 +1693,7 @@
       <StringVectorProperty animateable="0"
                             command="SetRangeLabelFormat"
                             number_of_elements="1"
-                            default_values="%-#6.1e"
+                            default_values="%g"
                             name="RangeLabelFormat"
                             label="Range Label Format">
         <Hints>
