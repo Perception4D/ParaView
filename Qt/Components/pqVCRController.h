@@ -75,18 +75,18 @@ Q_SIGNALS:
 public Q_SLOTS:
   // Set the animation scene. If null, the VCR control is disabled
   // (emits enabled(false)).
-  void setAnimationScene(pqAnimationScene*);
+  virtual void setAnimationScene(pqAnimationScene*);
 
   // Called when timeranges change.
-  void onTimeRangesChanged();
+  virtual void onTimeRangesChanged();
 
   // Connect these signals to appropriate VCR buttons.
   void onFirstFrame();
   void onPreviousFrame();
   void onNextFrame();
   void onLastFrame();
-  void onPlay();
-  void onPause();
+  virtual void onPlay();
+  virtual void onPause();
   void onLoop(bool checked);
 
 protected Q_SLOTS:
@@ -95,10 +95,12 @@ protected Q_SLOTS:
   void onBeginPlay();
   void onEndPlay();
 
+protected:
+  QPointer<pqAnimationScene> Scene;
+
 private:
   Q_DISABLE_COPY(pqVCRController)
 
-  QPointer<pqAnimationScene> Scene;
 };
 
 #endif
