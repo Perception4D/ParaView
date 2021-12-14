@@ -51,7 +51,7 @@ public:
   /**
    * Constructor. Parent cannot be nullptr.
    */
-  pqExportReaction(QAction* parent);
+  pqExportReaction(QAction* parent, pqView* view = nullptr);
 
   /**
    * Exports the current view. Returns the exported filename of successful
@@ -78,6 +78,7 @@ private:
   QDialog* createConfigurationDialog(pqProxyWidget* proxyWidget);
 
   pqView* ConnectedView;
+  pqView* View;
 
   Q_DISABLE_COPY(pqExportReaction)
 };
