@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "pqLiveSourceBehavior.h"
 
 #include "pqApplicationCore.h"
+#include "pqOutputPort.h"
 #include "pqPipelineSource.h"
 #include "pqServer.h"
 #include "pqServerManagerModel.h"
@@ -52,6 +53,31 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 
 bool pqLiveSourceBehavior::PauseLiveUpdates = false;
+
+//-----------------------------------------------------------------------------
+namespace
+{
+void renderAllViewsInLineage(pqPipelineSource* src)
+{
+  // Request rendering on all views that have a representation implying
+  // any of the input source output and perform recursively.
+  // This fixes a bug/non supported feature in PV where only the live
+  // sources are addressed, so if a filter is applied on an output of the
+  // live source in another view, the view is not automatically refresh
+  // when the live source is updated.
+  for (int p = src->getNumberOfOutputPorts(); p >= 1; p--)
+  {
+    auto* opPort = src->getOutputPort(p - 1);
+    // render are not forced and will occur on idle later so
+    // we don't need to care about multiple calls on a single view.
+    opPort->renderAllViews(false);
+    for (int c = opPort->getNumberOfConsumers(); c >= 1; c--)
+    {
+      ::renderAllViewsInLineage(opPort->getConsumer(c - 1));
+    }
+  }
+}
+}
 
 //-----------------------------------------------------------------------------
 class pqLiveSourceBehavior::pqInternals
@@ -156,7 +182,8 @@ public:
           result.GetArgument(0, 0, &needs_update) && needs_update)
         {
           proxy->MarkModified(proxy);
-          src->renderAllViews();
+          // src->renderAllViews();
+          ::renderAllViewsInLineage(src);
         }
       }
     }
