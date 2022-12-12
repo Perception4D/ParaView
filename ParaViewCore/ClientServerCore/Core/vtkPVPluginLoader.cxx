@@ -377,6 +377,13 @@ bool vtkPVPluginLoader::LoadPluginInternal(const char* file, bool no_errors)
     return true;
   }
 
+  if (vtksys::SystemTools::GetFilenameLastExtension(file) == ".py")
+  {
+    vtkPVPluginLoaderErrorMacro(
+      "Failed to load Python plugin. Not a valid Python script or file could not be read.");
+    return false;
+  }
+
   if (vtksys::SystemTools::GetFilenameLastExtension(file) == ".xml")
   {
     vtkPVPluginLoaderDebugMacro("Loading XML plugin" << endl);
